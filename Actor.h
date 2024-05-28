@@ -48,6 +48,7 @@ public:
     virtual int getDexterity() const { return mDexterity; } //return dexterity
     Level* getLevel() const { return mCurrLvl; } //return pointer to level actor is on
     bool isAlive() const { return mIsAlive; } //indicator for whether actor is still alive
+    size_t getSleepTime() const {return mSleepTime;} //returns sleep time of actor
 
     //SETTERS
     virtual void setLocation(Coord newLocation); //updates location of actor
@@ -61,6 +62,7 @@ public:
     virtual void die() { mIsAlive = false; } //actor is no longer living
     virtual void attack(Actor* attackedActor) = 0;
     virtual void heal(); //heal for player and dragon
+    void setSleepTime(size_t newSleepTime) {mSleepTime = newSleepTime;} //set new sleep time
 
     void setLevel(Level* level) {mCurrLvl = level;} //set the current level of the actor
     int squaredDistBetweenCoords(Coord playerLocation, Coord monsterLocation); //finds distance between two coords squared
@@ -73,7 +75,7 @@ private:
     int mArmor;
     int mStrength;
     int mDexterity;
-    int mSleepTime;
+    size_t mSleepTime;
     Level* mCurrLvl; //current level the actor is on
     bool mIsAlive;
     int mMaxHealth;
@@ -96,7 +98,7 @@ public:
     void cheat(); //cheats so that we can test the game easily
 
     void displayInventory(); //show player's inventory
-    int inventorySize() { return mInventory.size(); } //return size of player's inventory
+    size_t inventorySize() { return mInventory.size(); } //return size of player's inventory
     bool hasGoldenIdol(); //returns true if player has golden idol, sending signal to end the game
 
 private:

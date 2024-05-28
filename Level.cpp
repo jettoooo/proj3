@@ -105,7 +105,7 @@ void Level::generateCorridor(int room1Index, int room2Index)
 
 void Level::generateLevel()
 {
-    for (int i = 1; i < randInt(4, 6); i++)
+    for (int i = 1; i < randInt(3, 4); i++)
     {
         generateRoom();
     }
@@ -135,8 +135,10 @@ void Level::generateLevel()
     {
         addGoldenIdol();
     }
-
-    addStairs();
+    if (levelNum >= 0 && levelNum <= 3) // only add stairs for levels 0 to 3
+    {
+        addStairs();
+    }
 
 }
 

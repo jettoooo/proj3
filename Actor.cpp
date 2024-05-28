@@ -153,10 +153,20 @@ void Player::attack(Actor* attackedActor)
 			attackedActor->die();
 			message += " dealing a final blow";
 		}
-		else
-		{
-			message += " and hits ";
-		}
+        else if (trueWithProbability(0.2)) // chances of putting monster to sleep
+        {
+            mCurrWeapon->putDefenderToSleep(attackedActor);
+            if (attackedActor->getSleepTime() > 0)
+            {
+                message += " and hits,";
+                message += " putting ";
+                message += defender + " to sleep.";
+            }
+            else
+            {
+                message += " and hits";
+            }
+        }
 	}
 	gameLog->record(message);
 }
@@ -241,20 +251,16 @@ void Player::wield(char inventoryChar)
 	if (wp != nullptr)
 	{
 		setCurrentWeapon(wp); //set the curr weapon pointer to a different weapon in inventory
+        GameLog* gameLog = getLevel()->getGameLog();
+        string message = "You are wielding " + wp->name();
+        gameLog->record(message);
 	}
-
-	GameLog* gameLog = getLevel()->getGameLog();
-	string message = "You are wielding " + wp->name();
-	gameLog->record(message);
 }
 
 bool Player::hasGoldenIdol()
 {
 	return mHasGoldenIdol;
 }
-
-
-
 
 
 void Player::displayInventory()
@@ -316,12 +322,19 @@ void Monster::attack(Actor* attackedActor)
 
 		//subtract damage from player's health
 		player->setHealth(player->getHealth() - damagePoints);
-
+        
 		if (player->getHealth() <= 0)
 		{
 			player->die();
 			message += " dealing a final blow";
 		}
+        else if (trueWithProbability(0.2)) // chances of putting player to sleep
+        {
+            mCurrWeapon->putDefenderToSleep(player);
+            message += " and hits,";
+            message += " putting";
+            message += " the player to sleep.";
+        }
 		else
 		{
 			message += " and hits ";
@@ -590,7 +603,6 @@ void Dragon::action()
 {
 	heal(); //heal before taking turn
 	Player* player = getLevel()->getPlayer();
-	Level* currentLevel = getLevel(); //get current level
 
 	Coord playerLocation = player->getLocation();
 	Coord dragonLocation = getLocation();

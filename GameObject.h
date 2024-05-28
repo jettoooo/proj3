@@ -43,6 +43,7 @@ public:
 	virtual int dexterityBonus() = 0; //weapons give dexterity bonus
 	virtual int damageBonus() = 0; //weapons give damage bonus
 	virtual string actionVerb() = 0;
+    virtual void putDefenderToSleep(Actor* defender) {} // only implemented for magic fangs
 };
 
 
@@ -95,7 +96,7 @@ public:
 	virtual int damageBonus() { return 2; }
 	virtual string name() { return "magic fangs"; }
 	virtual string actionVerb() { return " strikes "; }
-	void putDefenderToSleep(); //has the ability to put defenders to sleep
+	virtual void putDefenderToSleep(Actor* defender); //has the ability to put defenders to sleep
 };
 
 class Scroll :public GameObject

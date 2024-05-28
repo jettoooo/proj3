@@ -4,8 +4,6 @@
 #include "Actor.h"
 
 
-
-
 GameObject::GameObject(Level* level) 
 	: mLocation(Coord()), mCurrLvl(level) {}
 
@@ -16,6 +14,19 @@ GameObject::~GameObject()
 void GameObject::setLocation(Coord newLocation)
 {
 	mLocation = newLocation;
+}
+
+//WEAPON METHODS
+void MagicFangs::putDefenderToSleep(Actor* defender)
+{
+    size_t currentSleepTime = defender->getSleepTime(); // current sleep time of defender
+    size_t newSleepTime = randInt(2,6); // generate new sleep value
+    
+    if (newSleepTime > currentSleepTime)
+    {
+        defender->setSleepTime(newSleepTime);
+    }
+    
 }
 
 //SCROLL METHODS

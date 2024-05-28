@@ -39,7 +39,14 @@ void Game::play()
         }
 
         input = getCharacter(); // Get user input
-        handleInput(input, player, inventoryOn);
+        if (player->getSleepTime() == 0)
+        {
+            handleInput(input, player, inventoryOn);
+        }
+        else
+        {
+            player->setSleepTime(player->getSleepTime() - 1);
+        }
 
         handleMonsterActions();
         clearScreen();
@@ -152,9 +159,14 @@ void Game::handleMonsterActions()
     for (int i = 0; i < mLevel->getNumMonsters(); i++)
     {
         Monster* monster = mLevel->getMonster(i);
-        if (monster != nullptr && monster ->isAlive())
+        
+        if (monster != nullptr && monster ->isAlive() && monster->getSleepTime() == 0)
         {
             monster->action();
+        }
+        else if (monster != nullptr && monster->getSleepTime() > 0)
+        {
+            monster->setSleepTime(monster->getSleepTime() - 1);
         }
     }
 }
